@@ -438,11 +438,11 @@ async function callAPI(prompt,ldId,rtId,btnId,label){
     const r=await fetch('/api/chat',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({messages:[{role:'user',content:prompt}]})
+      body:JSON.stringify({prompt})
     });
     const d=await r.json();
-    if(d.error)result='錯誤：'+d.error.message;
-    else result=d.content&&d.content[0]?d.content[0].text:'生成失敗，請重試。';
+    if(d.error)result='錯誤：'+d.error;
+    else result=d.text||'生成失敗，請重試。';
   }catch(e){result='連線失敗，請稍後重試。('+e.message+')';}
   document.getElementById(ldId).style.display='none';
   document.getElementById(rtId).textContent=result;
